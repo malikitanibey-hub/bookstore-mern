@@ -106,6 +106,7 @@ function AddBook() {
 
     fd.append("isFeatured", String(form.isFeatured));
     fd.append("isOnSale", String(form.isOnSale));
+    fd.append("discountPercent", String(form.discountPercent));
 
     if (form.coverImage) {
       fd.append("coverImage", form.coverImage);
