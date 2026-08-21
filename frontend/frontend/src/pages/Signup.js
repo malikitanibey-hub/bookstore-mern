@@ -13,7 +13,7 @@ function Signup() {
     setErr("");
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/users/register", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

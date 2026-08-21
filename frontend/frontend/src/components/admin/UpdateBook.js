@@ -10,7 +10,7 @@ function UpdateBook() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:5000/books/${id}`)
+    fetch(`${process.env.REACT_APP_API_URL}/books/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setBook(data);
@@ -24,7 +24,7 @@ function UpdateBook() {
 
   const handleUpdate = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/books/updateBook/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/books/updateBook/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(book),
@@ -47,7 +47,7 @@ function UpdateBook() {
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/books/deleteBook/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/books/deleteBook/${id}`, {
         method: "DELETE",
       });
       const data = await res.json();

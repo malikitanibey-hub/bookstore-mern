@@ -7,13 +7,13 @@ export function CartProvider({ children }) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/carts", { credentials: "include" })
+    fetch(`${process.env.REACT_APP_API_URL}/carts`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => setCart(data.cart));
   }, []);
 
   const addToCart = async (bookId) => {
-    const res = await fetch("http://localhost:5000/carts/add", {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/carts/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export function CartProvider({ children }) {
   };
 
   const updateCart = async (bookId, quantity) => {
-    const res = await fetch("http://localhost:5000/carts/update", {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/carts/update`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export function CartProvider({ children }) {
   };
 
   const removeFromCart = async (bookId) => {
-    const res = await fetch(`http://localhost:5000/carts/remove/${bookId}`, {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/carts/remove/${bookId}`, {
       method: "DELETE",
       credentials: "include",
     });

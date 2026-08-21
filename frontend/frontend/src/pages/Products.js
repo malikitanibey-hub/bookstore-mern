@@ -38,7 +38,7 @@ function Products() {
 
   // Fetch books
   useEffect(() => {
-    fetch("http://localhost:5000/books/getBooks")
+    fetch(`${process.env.REACT_APP_API_URL}/books/getBooks`)
       .then((res) => res.json())
       .then((data) => {
         setBookList(data);
@@ -56,7 +56,7 @@ function Products() {
 
   // Fetch categories
   useEffect(() => {
-    fetch("http://localhost:5000/category/getCategories")
+    fetch(`${process.env.REACT_APP_API_URL}/category/getCategories`)
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch((err) => console.log("Error fetching categories:", err));
@@ -520,7 +520,7 @@ function Products() {
                     <Link to={`/bookDetails/${book._id}`}>
                       <div className="flex h-64 w-full items-center justify-center overflow-hidden rounded-lg bg-gray-50">
                         <img
-                          src={`http://localhost:5000/images/${book.coverImage}`}
+                          src={`${process.env.REACT_APP_API_URL}/images/${book.coverImage}`}
                           alt={book.title}
                           className="h-full w-full object-contain"
                         />

@@ -8,7 +8,7 @@ function OnSaleProducts() {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    fetch("http://localhost:5000/books/getBooks")
+    fetch(`${process.env.REACT_APP_API_URL}/books/getBooks`)
       .then((res) => res.json())
       .then((data) => setBookList(data))
       .catch((err) => console.log("Error fetching books: ", err));
@@ -16,7 +16,7 @@ function OnSaleProducts() {
 
   // const handleAdd = async(bookId) => {
   //   await addToCart(bookId)
-  //   fetch("http://localhost:5000/books/getBooks")
+  //   fetch(`${process.env.REACT_APP_API_URL}/books/getBooks`)
   //     .then((res) => res.json())
   //     .then((data) => setBookList(data))
   // }
@@ -46,7 +46,7 @@ function OnSaleProducts() {
               {/* Image */}
               <div className="w-full h-64 flex items-center justify-center overflow-hidden rounded-lg bg-gray-50">
                 <img
-                  src={`http://localhost:5000/images/${book.coverImage}`}
+                  src={`${process.env.REACT_APP_API_URL}/images/${book.coverImage}`}
                   className="w-full h-full object-contain"
                 />
               </div>

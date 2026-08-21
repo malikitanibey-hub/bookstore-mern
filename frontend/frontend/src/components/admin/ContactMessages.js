@@ -10,7 +10,7 @@ function ContactMessages() {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch("http://localhost:5000/contact");
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/contact`);
 
         const data = await response.json();
 

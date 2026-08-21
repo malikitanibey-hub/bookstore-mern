@@ -12,7 +12,7 @@ function Allbooks() {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const res = await fetch("http://localhost:5000/admin/getBooks", {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/admin/getBooks`, {
           method: "GET",
           credentials: "include",
           headers: {
@@ -86,7 +86,7 @@ function Allbooks() {
             {/* Book Image */}
             <div className="flex h-60 w-full items-center justify-center overflow-hidden rounded-lg bg-gray-50">
               <img
-                src={`http://localhost:5000/images/${book.coverImage}`}
+                src={`${process.env.REACT_APP_API_URL}/images/${book.coverImage}`}
                 alt={book.title}
                 className="h-full w-full object-contain"
               />

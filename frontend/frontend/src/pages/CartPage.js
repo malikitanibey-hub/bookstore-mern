@@ -24,7 +24,7 @@ function CartPage() {
         {cart?.items?.map((item) => (
           <div className="flex items-center gap-4 border rounded-lg p-4 shadow-sm">
             <img
-              src={`http://localhost:5000/images/${item?.book?.coverImage}`}
+              src={`${process.env.REACT_APP_API_URL}/images/${item?.book?.coverImage}`}
               className="rounded w-24 h-32 object-cover"
             />
 

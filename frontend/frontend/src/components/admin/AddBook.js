@@ -35,7 +35,7 @@ function AddBook() {
     const loadingCats = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/category/getCategories",
+          `${process.env.REACT_APP_API_URL}/category/getCategories`,
           {
             method: "GET",
             credentials: "include",
@@ -113,7 +113,7 @@ function AddBook() {
 
     try {
       setSubmitting(true);
-      const res = await fetch("http://localhost:5000/admin/createBook", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/admin/createBook`, {
         method: "POST",
         credentials: "include",
         body: fd,

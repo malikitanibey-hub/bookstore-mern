@@ -13,7 +13,7 @@ function BookDetails() {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/books/${id}`)
+    fetch(`${process.env.REACT_APP_API_URL}/books/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setBook(data);
@@ -38,7 +38,7 @@ function BookDetails() {
         <div className="flex justify-center">
           <img
             className="w-80 h-[450px] object-cover rounded-lg"
-            src={`http://localhost:5000/images/${book.coverImage}`}
+            src={`${process.env.REACT_APP_API_URL}/images/${book.coverImage}`}
           />
         </div>
 
