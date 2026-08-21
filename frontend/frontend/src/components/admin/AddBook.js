@@ -140,7 +140,6 @@ function AddBook() {
         discountPercent: "",
         isFeatured: false,
         isOnSale: false,
-        discountPercent: false,
         coverImage: null,
       });
       setPreview(null);

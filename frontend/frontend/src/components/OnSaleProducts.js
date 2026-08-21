@@ -46,7 +46,8 @@ function OnSaleProducts() {
               {/* Image */}
               <div className="w-full h-64 flex items-center justify-center overflow-hidden rounded-lg bg-gray-50">
                 <img
-                  src={`${process.env.REACT_APP_API_URL}/images/${book.coverImage}`}
+                  src={`/images/${book.coverImage}`}
+                  alt={book.title}
                   className="w-full h-full object-contain"
                 />
               </div>

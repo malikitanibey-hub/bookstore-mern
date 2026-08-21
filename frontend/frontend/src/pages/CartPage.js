@@ -5,9 +5,11 @@ function CartPage() {
   const { cart, updateCart, removeFromCart, message } = useCart();
 
   if (!cart || cart.items.length === 0) {
+    return(
     <div className="min-h-screen flex items-center justify-center mt-48">
       <p className="text-gray-500 text-lg">🛒 Your Cart Is Empty</p>
-    </div>;
+    </div>
+    );
   }
 
   return (
@@ -24,7 +26,9 @@ function CartPage() {
         {cart?.items?.map((item) => (
           <div className="flex items-center gap-4 border rounded-lg p-4 shadow-sm">
             <img
-              src={`${process.env.REACT_APP_API_URL}/images/${item?.book?.coverImage}`}
+              src={`/images/${item?.book?.coverImage}`}
+              alt={item?.book?.title}
+              key={item?.book?._id}
               className="rounded w-24 h-32 object-cover"
             />
 

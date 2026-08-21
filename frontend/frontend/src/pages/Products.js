@@ -519,8 +519,9 @@ function Products() {
                     </button>
                     <Link to={`/bookDetails/${book._id}`}>
                       <div className="flex h-64 w-full items-center justify-center overflow-hidden rounded-lg bg-gray-50">
+
                         <img
-                          src={`${process.env.REACT_APP_API_URL}/images/${book.coverImage}`}
+                          src={`/images/${book.coverImage}`}
                           alt={book.title}
                           className="h-full w-full object-contain"
                         />

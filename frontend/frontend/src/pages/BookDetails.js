@@ -38,7 +38,8 @@ function BookDetails() {
         <div className="flex justify-center">
           <img
             className="w-80 h-[450px] object-cover rounded-lg"
-            src={`${process.env.REACT_APP_API_URL}/images/${book.coverImage}`}
+            src={`/images/${book.coverImage}`}
+            alt={book.title}
           />
         </div>
 
