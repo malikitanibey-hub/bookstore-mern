@@ -44,8 +44,8 @@ router.post("/register", async (req, res) => {
   //  make user if he exit and return to website to still login until 1 week
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+sameSite: "none",
+secure: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   })
 
@@ -84,8 +84,8 @@ router.post("/signin", async (req, res) => {
   //  make user if he exit and return to website to still login until 1 week
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+sameSite: "none",
+secure: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   })
 
@@ -132,11 +132,11 @@ router.get("/verify", cookieAuth, async(req, res) => {
   }
 })
 
-router.post("logout", async(req, res)=>{
+router.post("/logout", async(req, res)=>{
   res.clearCookie("token", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+sameSite: "none",
+secure: true,
   })
     res.status(200).json({
       message: "Logged Out Successfully"
