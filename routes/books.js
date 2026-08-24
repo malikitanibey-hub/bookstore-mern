@@ -10,7 +10,8 @@ const storage = multer.diskStorage({
     cb(null, './images')
   },
   filename: function (req, file, cb) {
-    const filename = Date.now() + '-' + file.fieldname
+    const extension = file.originalname.split('.').pop()
+    const filename = Date.now() + '-' + file.fieldname + '.' + extension
     cb(null, filename)
   }
 })
