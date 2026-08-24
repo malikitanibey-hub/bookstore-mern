@@ -16,7 +16,7 @@ function CartPage() {
   }
 
   return (
-    <div className="mt-32 sm:mt-36 md:mt-44 min-h-screen px-4 sm:px-6 md:px-10 pb-10">
+    <div className="pt-32 sm:mt-36 md:mt-44 min-h-screen px-4 sm:px-6 md:px-10 pb-10">
       <div className="max-w-5xl mx-auto">
         <h3 className="text-xl sm:text-2xl font-semibold my-5">
           My Cart
@@ -99,7 +99,7 @@ function CartPage() {
 
                   <button
                     onClick={() => removeFromCart(item.book._id)}
-                    className="text-sm text-red-500 hover:text-red-700 mt-0 sm:mt-2"
+                    className="text-sm text-white hover:text-slate-100 mt-0 sm:mt-2"
                   >
                     Delete
                   </button>
