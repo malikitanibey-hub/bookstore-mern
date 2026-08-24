@@ -1,23 +1,31 @@
 const express = require("express");
+console.log("BOOKS ROUTE FILE LOADED");
 const router = express.Router();
 const Book = require("../models/BookSchema");
-const multer  = require('multer')
+const multer = require("multer");
+const supabase = require("../config/supabase");
 const {auth} = require("../auth/middleware")
 
 //this code from multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './images')
-  },
-  filename: function (req, file, cb) {
-    const extension = file.originalname.split('.').pop()
-    const filename = Date.now() + '-' + file.fieldname + '.' + extension
-    cb(null, filename)
-  }
-})
-const upload = multer({ storage: storage })
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, './images')
+//   },
+//   filename: function (req, file, cb) {
+//     const extension = file.originalname.split('.').pop()
+//     const filename = Date.now() + '-' + file.fieldname + '.' + extension
+//     cb(null, filename)
+//   }
+// })
+// const upload = multer({ storage: storage })
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+});
 
 router.post("/createBook", auth("admin"), upload.single('coverImage'), async (req, res) => {
+  console.log("CREATE BOOK REQUEST RECEIVED");
+console.log("FILE:", req.file);
   try {
     const {
       title,
@@ -37,6 +45,38 @@ router.post("/createBook", auth("admin"), upload.single('coverImage'), async (re
       });
     }
 
+    let coverImageUrl = null;
+
+if (req.file) {
+  const extension = req.file.originalname.split(".").pop();
+  const fileName = `${Date.now()}-coverImage.${extension}`;
+
+  const { data: uploadData, error: uploadError } = await supabase.storage
+    .from("book-images")
+    .upload(fileName, req.file.buffer, {
+      contentType: req.file.mimetype,
+      upsert: false,
+    });
+
+  console.log("SUPABASE UPLOAD DATA:", uploadData);
+  console.log("SUPABASE UPLOAD ERROR:", uploadError);
+
+  if (uploadError) {
+    return res.status(500).json({
+      message: "Image upload failed",
+      error: uploadError.message,
+    });
+  }
+
+  const { data: publicUrlData } = supabase.storage
+    .from("book-images")
+    .getPublicUrl(fileName);
+
+  coverImageUrl = publicUrlData.publicUrl;
+
+  console.log("SUPABASE PUBLIC URL:", coverImageUrl);
+}
+
     const newBook = new Book({
       title,
       author,
@@ -47,7 +87,7 @@ router.post("/createBook", auth("admin"), upload.single('coverImage'), async (re
       category,
       isOnSale,
       discountPercent,
-      coverImage: req.file?.filename,
+      coverImage: coverImageUrl,
     });
 
     await newBook.save();

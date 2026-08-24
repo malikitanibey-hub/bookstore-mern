@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCart } from "../auth/CartContext";
 import { Link } from "react-router-dom";
+import { getBookImage } from "../utils/imageHelper";
 
 function OnSaleProducts() {
   const [bookList, setBookList] = useState([]);
@@ -46,7 +47,7 @@ function OnSaleProducts() {
               {/* Image */}
               <div className="w-full h-64 flex items-center justify-center overflow-hidden rounded-lg bg-gray-50">
                 <img
-  src={`/images/${book.coverImage}`}
+                  src={getBookImage(book.coverImage)}
                   alt={book.title}
                   className="w-full h-full object-contain"
                 />

@@ -11,6 +11,7 @@ import {
   Trophy,
 } from "lucide-react";
 import { useCart } from "../auth/CartContext";
+import { getBookImage } from "../utils/imageHelper";
 
 function Products() {
   const [bookList, setBookList] = useState([]);
@@ -521,7 +522,7 @@ function Products() {
                       <div className="flex h-64 w-full items-center justify-center overflow-hidden rounded-lg bg-gray-50">
 
                         <img
-                          src={`/images/${book.coverImage}`}
+                          src={getBookImage(book.coverImage)}
                           alt={book.title}
                           className="h-full w-full object-contain"
                         />

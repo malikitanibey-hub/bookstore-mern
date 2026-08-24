@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthContext";
+import { getBookImage } from "../../utils/imageHelper";
 
 function Allbooks() {
   const [bookList, setBookList] = useState([]);
@@ -86,8 +87,7 @@ function Allbooks() {
             {/* Book Image */}
             <div className="flex h-60 w-full items-center justify-center overflow-hidden rounded-lg bg-gray-50">
               <img
-                src={`${process.env.REACT_APP_API_URL}/images/${book.coverImage}`}
-                alt={book.title}
+  src={getBookImage(book.coverImage)}                alt={book.title}
                 className="h-full w-full object-contain"
               />
             </div>

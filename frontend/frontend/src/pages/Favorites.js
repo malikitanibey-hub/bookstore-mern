@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BookOpen, Heart } from "lucide-react";
 import { useCart } from "../auth/CartContext";
+import { getBookImage } from "../utils/imageHelper";
 
 function Favorites() {
   const [favorites, setFavorites] = useState([]);
@@ -128,8 +129,8 @@ function Favorites() {
                 <Link to={`/bookDetails/${book._id}`}>
                   <div className="flex h-64 w-full items-center justify-center overflow-hidden rounded-lg bg-gray-50">
                     <img
-  src={`${process.env.REACT_APP_API_URL}/images/${book.coverImage}`}
-                      alt={book.title}
+  src={getBookImage(book.coverImage)}
+                        alt={book.title}
                       className="h-full w-full object-contain"
                     />
                   </div>

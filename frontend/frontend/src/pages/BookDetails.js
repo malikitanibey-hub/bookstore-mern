@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCart } from "../auth/CartContext";
+import { getBookImage } from "../utils/imageHelper";
 
 function BookDetails() {
   const { id } = useParams();
@@ -38,7 +39,7 @@ function BookDetails() {
         <div className="flex justify-center">
           <img
             className="w-80 h-[450px] object-cover rounded-lg"
-  src={`/images/${book.coverImage}`}
+src={getBookImage(book.coverImage)}
             alt={book.title}
           />
         </div>

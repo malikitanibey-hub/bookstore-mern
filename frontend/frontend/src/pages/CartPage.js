@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useCart } from "../auth/CartContext";
+import { getBookImage } from "../utils/imageHelper";
 
 function CartPage() {
   const { cart, updateCart, removeFromCart, message } = useCart();
@@ -26,8 +27,8 @@ function CartPage() {
         {cart?.items?.map((item) => (
           <div className="flex items-center gap-4 border rounded-lg p-4 shadow-sm">
             <img
-              src={`${process.env.REACT_APP_API_URL}/images/${item?.book?.coverImage}`}
-              alt={item?.book?.title}
+  src={getBookImage(item?.book?.coverImage)}
+                alt={item?.book?.title}
               key={item?.book?._id}
               className="rounded w-24 h-32 object-cover"
             />
