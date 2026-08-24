@@ -60,7 +60,7 @@ function CartPage() {
                   {/* Quantity */}
                   <div className="flex items-center justify-center sm:justify-start gap-3 mt-3">
                     <button
-                      className="w-8 h-8 border rounded disabled:opacity-50"
+                      className="w-8 h-8 border rounded flex items-center justify-center disabled:opacity-50"
                       disabled={item?.quantity <= 1}
                       onClick={() =>
                         updateCart(
@@ -77,7 +77,7 @@ function CartPage() {
                     </span>
 
                     <button
-                      className="w-8 h-8 border rounded disabled:opacity-50"
+                      className="w-8 h-8 border rounded flex items-center justify-center disabled:opacity-50"
                       onClick={() =>
                         updateCart(
                           item?.book?._id,
