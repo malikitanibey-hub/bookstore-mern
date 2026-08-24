@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser")
+const path = require("path");
 
 const connectDB = require("./config/db")
 app.use(cookieParser())
@@ -26,7 +27,8 @@ app.use("/category", require("./routes/category"))
 app.use("/admin", require("./routes/admin"))
 app.use("/carts", require("./routes/carts"))
 app.use("/contact", require("./routes/contact"));
-app.use("/images", express.static("images"))
+
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 
 const PORT = process.env.PORT || 3000;
