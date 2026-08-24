@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.react-multi-carousel-dot button {
+  width: 10px;
+  height: 10px;
+  border: none;
+  background: #d1d5db;
+  margin: 0 4px;
+}
+
+.react-multi-carousel-dot--active button {
+  background: #F86D72;
+  width: 12px;
+  height: 12px;
+}

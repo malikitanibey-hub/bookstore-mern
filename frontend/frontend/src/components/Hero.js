@@ -33,8 +33,8 @@ function Hero() {
         customTransition="transform 700ms ease-in-out"
         transitionDuration={700}
         containerClass="w-full"
-        removeArrowOnDeviceType={["tablet", "mobile"]}
-        dotListClass="custom-dot-list-style"
+        //removeArrowOnDeviceType={["tablet", "mobile"]}
+        //dotListClass="custom-dot-list-style"
         itemClass="w-full"
       >
         {/* Slide 1 */}
