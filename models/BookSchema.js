@@ -39,7 +39,7 @@ const BookSchema = new mongoose.Schema({
 
   discountPercent: {
     type: String,
-    default: false,
+    default: "",
   },
 
   // Connecting the book to a category using a reference to the Category model

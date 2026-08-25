@@ -21,9 +21,7 @@ function Favorites() {
 
   // Remove from favorites
   const removeFavorite = (bookId) => {
-    const updatedFavorites = favorites.filter(
-      (book) => book._id !== bookId
-    );
+    const updatedFavorites = favorites.filter((book) => book._id !== bookId);
 
     setFavorites(updatedFavorites);
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
@@ -51,9 +49,7 @@ function Favorites() {
         />
 
         <div className="relative z-10 px-4 text-center text-white">
-          <h1 className="text-3xl font-bold md:text-5xl">
-            My Favorites
-          </h1>
+          <h1 className="text-3xl font-bold md:text-5xl">My Favorites</h1>
 
           <p className="mt-3 text-sm md:text-base">
             Your favorite books, all in one place
@@ -70,8 +66,8 @@ function Favorites() {
           </h2>
 
           <p className="mt-1 text-sm text-gray-500">
-            {favorites.length}{" "}
-            {favorites.length === 1 ? "book" : "books"} in your favorites
+            {favorites.length} {favorites.length === 1 ? "book" : "books"} in
+            your favorites
           </p>
         </div>
 
@@ -85,10 +81,7 @@ function Favorites() {
         {/* Empty State */}
         {favorites.length === 0 ? (
           <div className="rounded-xl border border-gray-200 p-12 text-center">
-            <Heart
-              className="mx-auto mb-4 text-gray-300"
-              size={50}
-            />
+            <Heart className="mx-auto mb-4 text-gray-300" size={50} />
 
             <h2 className="font-semibold text-gray-700 text-2xl">
               No favorite books yet
@@ -119,18 +112,15 @@ function Favorites() {
                   className="absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md transition hover:scale-110"
                   aria-label="Remove from favorites"
                 >
-                  <Heart
-                    size={20}
-                    className="fill-[#F86D72] text-[#F86D72]"
-                  />
+                  <Heart size={20} className="fill-[#F86D72] text-[#F86D72]" />
                 </button>
 
                 {/* Book */}
                 <Link to={`/bookDetails/${book._id}`}>
                   <div className="flex h-64 w-full items-center justify-center overflow-hidden rounded-lg bg-gray-50">
                     <img
-  src={getBookImage(book.coverImage)}
-                        alt={book.title}
+                      src={getBookImage(book.coverImage)}
+                      alt={book.title}
                       className="h-full w-full object-contain"
                     />
                   </div>
@@ -161,9 +151,7 @@ function Favorites() {
                     disabled={book.stock === 0}
                     className="mt-4 h-11 w-full rounded-lg bg-[#F86D72] px-4 font-medium text-white transition hover:bg-[#e95d63] disabled:cursor-not-allowed disabled:bg-gray-400"
                   >
-                    {book.stock === 0
-                      ? "Out of stock"
-                      : "Add to Cart"}
+                    {book.stock === 0 ? "Out of stock" : "Add to Cart"}
                   </button>
                 </div>
               </div>

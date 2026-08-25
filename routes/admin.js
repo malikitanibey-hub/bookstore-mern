@@ -56,9 +56,6 @@ router.post("/createBook", cookieAuth, upload.single("coverImage"), async (req, 
             upsert: false,
           });
 
-      console.log("SUPABASE UPLOAD DATA:", uploadData);
-      console.log("SUPABASE UPLOAD ERROR:", uploadError);
-
       if (uploadError) {
         return res.status(500).json({
           message: "Image upload failed",
@@ -71,8 +68,6 @@ router.post("/createBook", cookieAuth, upload.single("coverImage"), async (req, 
         .getPublicUrl(fileName);
 
       coverImageUrl = publicUrlData.publicUrl;
-
-      console.log("SUPABASE PUBLIC URL:", coverImageUrl);
     }
 
     const newBook = new Book({

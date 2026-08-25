@@ -1,5 +1,4 @@
 const express = require("express");
-console.log("BOOKS ROUTE FILE LOADED");
 const router = express.Router();
 const Book = require("../models/BookSchema");
 const multer = require("multer");
@@ -126,22 +125,89 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.put("/updateBook/:id", async (req, res) => {
-  try {
-    const book = await Book.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    }).populate("category", "name");
+router.put(
+  "/updateBook/:id",
+  upload.single("coverImage"),
+  async (req, res) => {
+    try {
+      const {
+        title,
+        author,
+        description,
+        price,
+        stock,
+        category,
+        isFeatured,
+        isOnSale,
+        discountPercent,
+      } = req.body;
 
-    if (!book) {
-      return res.status(404).json({
-        message: "Book not Found",
+      const book = await Book.findById(req.params.id);
+
+      if (!book) {
+        return res.status(404).json({
+          message: "Book not Found",
+        });
+      }
+
+      // Update normal fields
+      book.title = title;
+      book.author = author;
+      book.description = description;
+      book.price = price;
+      book.stock = stock;
+      book.category = category || null;
+      book.isFeatured = isFeatured === "true";
+      book.isOnSale = isOnSale === "true";
+      book.discountPercent = discountPercent || "";
+
+      // Upload new image only if user selected one
+      if (req.file) {
+        const extension = req.file.originalname.split(".").pop();
+        const fileName = `${Date.now()}-coverImage.${extension}`;
+
+        const { data: uploadData, error: uploadError } =
+          await supabase.storage
+            .from("book-images")
+            .upload(fileName, req.file.buffer, {
+              contentType: req.file.mimetype,
+              upsert: false,
+            });
+
+        console.log("SUPABASE UPLOAD DATA:", uploadData);
+        console.log("SUPABASE UPLOAD ERROR:", uploadError);
+
+        if (uploadError) {
+          return res.status(500).json({
+            message: "Image upload failed",
+            error: uploadError.message,
+          });
+        }
+
+        const { data: publicUrlData } = supabase.storage
+          .from("book-images")
+          .getPublicUrl(fileName);
+
+        book.coverImage = publicUrlData.publicUrl;
+      }
+
+      await book.save();
+
+      await book.populate("category", "name");
+
+      res.json({
+        message: "Book Updated Successfully",
+        book,
+      });
+    } catch (error) {
+      console.error("UPDATE BOOK ERROR:", error);
+
+      res.status(500).json({
+        error: error.message,
       });
     }
-    res.json({ message: "Book Updated Successfully", book });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
-});
+);
 
 
 router.delete("/deleteBook/:id", async (req, res) => {

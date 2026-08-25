@@ -15,18 +15,12 @@ function Login() {
         setErr("")
         setLoading(true)
         try{
-            const res = await fetch(`${process.env.REACT_APP_API_URL}/users/signin`, {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                credentials: "include",
-                body: JSON.stringify(form),
-            })
-            const data = await res.json()
-            if(!res.ok) throw new Error(data?.message || "Login failed");
+          const result = await login(form)
+          if (!result.success) throw new Error(result.error || "Login failed")
 
-            const role = data?.role || "user"
-
-            const redirect = data?.redirect || (role === "admin" ? "/admin" : "/")
+          const data = result.data
+          const role = data?.role || data?.user?.role || "user"
+          const redirect = data?.redirect || (role === "admin" ? "/admin" : "/")
 
             navigate(redirect, {replace:true})
         }
