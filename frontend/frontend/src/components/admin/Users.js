@@ -330,12 +330,22 @@ return (
                     : "N/A"}
                 </p>
 
-                <button
-                  type="button"
-                  className="rounded-lg bg-[#F86D72] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#cd595d]"
-                >
-                  Manage
-                </button>
+<button
+  type="button"
+  onClick={() => handleToggleStatus(user)}
+  disabled={actionLoading === user._id}
+  className={`rounded-lg px-4 py-2 text-sm font-medium text-white transition disabled:cursor-not-allowed disabled:opacity-50 ${
+    user.status === "suspended"
+      ? "bg-green-600 hover:bg-green-700"
+      : "bg-[#F86D72] hover:bg-[#cd595d]"
+  }`}
+>
+  {actionLoading === user._id
+    ? "Updating..."
+    : user.status === "suspended"
+    ? "Activate"
+    : "Suspend"}
+</button>
               </div>
             </div>
           ))}
