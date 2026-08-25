@@ -7,13 +7,31 @@ import {
   MessageSquare,
   PanelLeftClose,
   PanelLeftOpen,
+  Users,
 } from "lucide-react";
-import React, { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext";
 
 function AdminLayout() {
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+  if (!loading && (!user || user.role !== "admin")) {
+    navigate("/", { replace: true });
+  }
+}, [user, loading, navigate]);
+
+if (loading) {
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-[#F86D72]"></div>
+    </div>
+  );
+}
 
   const closeMobileSidebar = () => {
     setOpen(false);
@@ -121,6 +139,21 @@ function AdminLayout() {
             >
               <PlusCircle className="h-5 w-5 shrink-0" strokeWidth={2.5} />
               <span>Add Books</span>
+            </NavLink>
+
+            <NavLink
+              to="/admin/users"
+              onClick={closeMobileSidebar}
+              className={({ isActive }) =>
+                `flex items-center gap-3 rounded-lg px-3 py-3 transition-colors ${
+                  isActive
+                    ? "bg-slate-700 text-white"
+                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                }`
+              }
+            >
+              <Users className="h-5 w-5 shrink-0" strokeWidth={2.5} />
+              <span>Users</span>
             </NavLink>
 
             {/* Contact Messages */}

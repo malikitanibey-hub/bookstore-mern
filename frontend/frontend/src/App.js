@@ -19,6 +19,7 @@ import Contact from "./pages/Contact";
 import ContactMessages from "./components/admin/ContactMessages";
 import Products from "./pages/Products";
 import Favorites from "./pages/Favorites";
+import Users from "./components/admin/Users";
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
             <Route path="add-book" element={<AddBook />} />
             <Route index element={<AllBooks />} />
             <Route path="/admin/update-book/:id" element={<UpdateBook />} />
+            <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/contact" element={<ContactMessages />} />
 
           </Route>
