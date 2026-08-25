@@ -56,14 +56,14 @@ function AddBook() {
   const onChange = (e) => {
     const { name, type, value, checked, files } = e.target;
 
-    if (type == "file") {
+    if (type === "file") {
       const file = files?.[0] || null;
       setForm((p) => ({ ...p, [name]: file }));
       setPreview(file ? URL.createObjectURL(file) : null);
       return;
     }
 
-    if (type == "checkbox") {
+    if (type === "checkbox") {
       setForm((p) => ({ ...p, [name]: checked }));
       return;
     }
@@ -145,7 +145,7 @@ function AddBook() {
       });
       setPreview(null);
     } catch (error) {
-      setMsg("❌", error.message);
+      setMsg(`❌ ${error.message}`);
     } finally {
       setSubmitting(false);
     }
@@ -155,13 +155,11 @@ function AddBook() {
   if (!isAuthenticated || !isAdmin) return null
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <h2 className="text-xl font-semibold mb-4">Add Book</h2>
-
+<div className="w-full max-w-3xl mx-auto px-3 sm:px-4 md:px-0">
+<h2 className="text-lg sm:text-xl font-semibold mb-4">Add Book</h2>
       <form
         onSubmit={onSubmit}
-        className="bg-white border border-slate-200 rounded-xl p-5 space-y-4"
-      >
+className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 space-y-4"      >
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm mb-1">Title *</label>
@@ -265,40 +263,29 @@ function AddBook() {
             />
           </div>
 
-          <div className="flex items-center gap-6 md:col-span-2">
-            <label className="inline-flex items-center gap-2">
-              <input
-                type="checkbox"
-                name="isFeatured"
-                checked={form.isFeatured}
-                onChange={onChange}
-                className="h-4 w-4 rounded border-slate-300"
-              />
-              <span className="text-sm">Featured</span>
-            </label>
+<div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 md:col-span-2">
+  <label className="inline-flex items-center gap-2">
+    <input
+      type="checkbox"
+      name="isFeatured"
+      checked={form.isFeatured}
+      onChange={onChange}
+      className="h-4 w-4 rounded border-slate-300"
+    />
+    <span className="text-sm">Featured</span>
+  </label>
 
-            <label className="inline-flex items-center gap-2">
-              <input
-                type="checkbox"
-                name="isFeatured"
-                checked={form.discountPercent}
-                onChange={onChange}
-                className="h-4 w-4 rounded border-slate-300"
-              />
-              <span className="text-sm">discount Percent</span>
-            </label>
-
-            <label className="inline-flex items-center gap-2">
-              <input
-                type="checkbox"
-                name="isOnSale"
-                checked={form.isOnSale}
-                onChange={onChange}
-                className="h-4 w-4 rounded border-slate-300"
-              />
-              <span className="text-sm">On Sale</span>
-            </label>
-          </div>
+  <label className="inline-flex items-center gap-2">
+    <input
+      type="checkbox"
+      name="isOnSale"
+      checked={form.isOnSale}
+      onChange={onChange}
+      className="h-4 w-4 rounded border-slate-300"
+    />
+    <span className="text-sm">On Sale</span>
+  </label>
+</div>
 
           <div className="md:col-span-2">
             <label className="block text-sm mb-1">Cover Image</label>
@@ -317,7 +304,7 @@ function AddBook() {
                 <img
                   src={preview}
                   alt="preview"
-                  className="h-40 w-40 object-cover rounded-lg border border-slate-200"
+                  className="h-40 w-32 sm:w-40 object-cover rounded-lg border border-slate-200"
                 />
               </div>
             )}
@@ -327,7 +314,7 @@ function AddBook() {
         <button
           type="submit"
           disabled={submitting}
-          className="inline-flex items-center whitespace-nowrap justify-center rounded-lg bg-slate-900 text-white px-4 py-2 text-sm font-medium hover:bg-slate-800 disabled:opacity-60"
+          className="w-full sm:w-auto inline-flex items-center whitespace-nowrap justify-center rounded-lg bg-slate-900 text-white px-4 py-2 text-sm font-medium hover:bg-slate-800 disabled:opacity-60"
         >
           {submitting ? "Submitting..." : "Create Book"}
         </button>
