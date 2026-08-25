@@ -5,48 +5,96 @@ import {
   PlusCircle,
   X,
   MessageSquare,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 import React, { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
 function AdminLayout() {
   const [open, setOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+
+  const closeMobileSidebar = () => {
+    setOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      <header className="stick flex items-center top-0 z-30 shadow-lg h-20">
+      {/* Header */}
+      <header className="sticky top-0 z-40 flex h-20 items-center border-b border-slate-200 bg-white px-4 shadow-sm md:px-6">
+        {/* Mobile menu */}
         <button
-          className="md:hidden inline-flex item-center justify-center
-          !bg-transparent !border-none !text-black
-          rounded-md border border-slate-200 p-2"
+          type="button"
+          className="mr-3 inline-flex items-center justify-center rounded-md border border-slate-200 bg-transparent p-2 text-slate-700 hover:bg-slate-100 md:hidden"
           onClick={() => setOpen(true)}
+          aria-label="Open Sidebar"
         >
           <Menu className="h-5 w-5" />
         </button>
-        <h4 className="font-bold">Admin Dashboard</h4>
+
+        <h4 className="text-lg font-bold text-slate-800">Admin Dashboard</h4>
+
+        {/* Desktop sidebar toggle */}
+        <button
+          type="button"
+          className="ml-auto hidden items-center justify-center rounded-md border border-slate-200 bg-white p-2 text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 md:inline-flex"
+          onClick={() => setCollapsed(!collapsed)}
+          aria-label={collapsed ? "Open Sidebar" : "Collapse Sidebar"}
+        >
+          {collapsed ? (
+            <PanelLeftOpen className="h-5 w-5" />
+          ) : (
+            <PanelLeftClose className="h-5 w-5" />
+          )}
+        </button>
       </header>
 
-      {/* Sidebar */}
-      <div className="relative mx-auto flex">
+      {/* Main layout */}
+      <div className="flex">
+        {/* Mobile overlay */}
+        {open && (
+          <div
+            className="fixed inset-0 z-40 bg-black/40 md:hidden"
+            onClick={closeMobileSidebar}
+          />
+        )}
+
+        {/* Sidebar */}
         <aside
-          className={`sticky top-0 h-screen flex flex-col transition-transform bg-slate-900 w-64 text-slate-100 ${
-            open ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-          }`}
+          className={`
+            fixed left-0 top-20 z-50 h-[calc(100vh-5rem)]
+            flex flex-col bg-slate-900 text-slate-100
+            shadow-xl transition-all duration-300 ease-in-out
+
+            md:sticky md:top-20 md:z-30 md:h-[calc(100vh-5rem)]
+
+            ${
+              open
+                ? "translate-x-0 w-64"
+                : "-translate-x-full w-64 md:translate-x-0"
+            }
+
+            ${collapsed ? "md:w-0 md:overflow-hidden" : "md:w-64"}
+          `}
         >
-          <a
-            className="md:hidden rounded-md p-2 hover:bg-slate-800
-                   !bg-transparent !text-white absolute right-0 cursor-pointer"
-            onClick={() => setOpen(false)}
+          {/* Mobile close */}
+          <button
+            type="button"
+            className="absolute right-2 top-3 flex h-8 w-8 items-center justify-center rounded-md bg-red-600 p-0 text-slate-300 transition hover:bg-red-700 hover:text-white md:hidden"
+            onClick={closeMobileSidebar}
             aria-label="Close Sidebar"
           >
             <X className="h-5 w-5" />
-          </a>
+          </button>
 
-          <nav className="flex-1 space-y-2 p-3 mt-15">
+          {/* Sidebar content */}
+          <nav className="mt-6 flex-1 space-y-2 p-3">
             {/* See All Books */}
             <NavLink
               to="/admin"
               end
+              onClick={closeMobileSidebar}
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-lg px-3 py-3 transition-colors ${
                   isActive
@@ -55,13 +103,14 @@ function AdminLayout() {
                 }`
               }
             >
-              <BookOpen className="h-5 w-5" strokeWidth={2.5} />
+              <BookOpen className="h-5 w-5 shrink-0" strokeWidth={2.5} />
               <span>See All Books</span>
             </NavLink>
 
             {/* Add Books */}
             <NavLink
               to="/admin/add-book"
+              onClick={closeMobileSidebar}
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-lg px-3 py-3 transition-colors ${
                   isActive
@@ -70,13 +119,14 @@ function AdminLayout() {
                 }`
               }
             >
-              <PlusCircle className="h-5 w-5" strokeWidth={2.5} />
+              <PlusCircle className="h-5 w-5 shrink-0" strokeWidth={2.5} />
               <span>Add Books</span>
             </NavLink>
 
             {/* Contact Messages */}
             <NavLink
               to="/admin/contact"
+              onClick={closeMobileSidebar}
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-lg px-3 py-3 transition-colors ${
                   isActive
@@ -85,23 +135,30 @@ function AdminLayout() {
                 }`
               }
             >
-              <MessageSquare className="h-5 w-5" strokeWidth={2.5} />
+              <MessageSquare className="h-5 w-5 shrink-0" strokeWidth={2.5} />
               <span>Contact Messages</span>
             </NavLink>
 
             {/* Return To Home */}
             <NavLink
               to="/"
+              onClick={closeMobileSidebar}
               className="flex items-center gap-3 rounded-lg px-3 py-3 text-slate-300 transition-colors hover:bg-slate-800 hover:text-white"
             >
-              <Home className="h-5 w-5" strokeWidth={2.5} />
+              <Home className="h-5 w-5 shrink-0" strokeWidth={2.5} />
               <span>Return To Home Page</span>
             </NavLink>
           </nav>
         </aside>
 
-        <main className="w-full md:ml-64 p-4 md:p-6">
-          <div className="mx-auto max-w-6xl">
+        {/* Page content */}
+        <main
+          className={`
+            min-w-0 flex-1 p-4 transition-all duration-300
+            md:p-6
+          `}
+        >
+          <div className="mx-auto w-full max-w-6xl">
             <Outlet />
           </div>
         </main>
