@@ -2,11 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useCart } from "../auth/CartContext";
 import { Link } from "react-router-dom";
 import { getBookImage } from "../utils/imageHelper";
+import { useAuth } from "../auth/AuthContext";
+import LoginRequiredPopup from "./LoginRequiredPopup";
+import AdminActionPopup from "./AdminActionPopup";
 
 function OnSaleProducts() {
   const [bookList, setBookList] = useState([]);
   const [message, setMessage] = useState("");
   const { addToCart } = useCart();
+  const { user, isAuthenticated } = useAuth();
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showAdminPopup, setShowAdminPopup] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/books/getBooks`)
@@ -76,16 +82,36 @@ function OnSaleProducts() {
               </div>
 
               <button
-                onClick={() => {
-                  addToCart(book._id);
+                onClick={async () => {
+                  if (!isAuthenticated) {
+                    setShowLoginPopup(true);
+                    return;
+                  }
+
+                  if (user?.role === "admin") {
+                    setShowAdminPopup(true);
+                    return;
+                  }
+
+                  const success = await addToCart(book._id);
+
+                  if (!success) {
+                    return;
+                  }
 
                   setBookList((prev) =>
                     prev.map((b) =>
-                      b._id === book._id ? { ...b, stock: b.stock - 1 } : b,
+                      b._id === book._id
+                        ? { ...b, stock: Math.max(0, b.stock - 1) }
+                        : b,
                     ),
                   );
 
                   setMessage("Added To Cart Successfully");
+
+                  setTimeout(() => {
+                    setMessage("");
+                  }, 2500);
                 }}
                 disabled={book.stock === 0}
                 className="mt-4 h-11 w-full rounded-lg bg-[#F86D72] px-4 font-medium text-white transition hover:bg-[#e95d63] disabled:cursor-not-allowed disabled:bg-gray-400"
@@ -96,6 +122,12 @@ function OnSaleProducts() {
           </div>
         ))}
       </div>
+      {showLoginPopup && (
+        <LoginRequiredPopup onClose={() => setShowLoginPopup(false)} />
+      )}
+      {showAdminPopup && (
+        <AdminActionPopup onClose={() => setShowAdminPopup(false)} />
+      )}
     </div>
   );
 }

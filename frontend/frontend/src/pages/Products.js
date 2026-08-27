@@ -11,7 +11,10 @@ import {
   Trophy,
 } from "lucide-react";
 import { useCart } from "../auth/CartContext";
+import { useAuth } from "../auth/AuthContext";
+import LoginRequiredPopup from "../components/LoginRequiredPopup";
 import { getBookImage } from "../utils/imageHelper";
+import AdminActionPopup from "../components/AdminActionPopup";
 
 function Products() {
   const [bookList, setBookList] = useState([]);
@@ -29,7 +32,9 @@ function Products() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { addToCart } = useCart();
-
+  const { user, isAuthenticated } = useAuth();
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showAdminPopup, setShowAdminPopup] = useState(false);
   const [favorites, setFavorites] = useState(() => {
     const savedFavorites = localStorage.getItem("favorites");
     return savedFavorites ? JSON.parse(savedFavorites) : [];
@@ -161,8 +166,21 @@ function Products() {
     setCurrentPage(1);
   };
 
-  const handleAddToCart = (bookId) => {
-    addToCart(bookId);
+  const handleAddToCart = async (bookId) => {
+    if (!isAuthenticated) {
+      setShowLoginPopup(true);
+      return;
+    }
+    if (user?.role === "admin") {
+      setShowAdminPopup(true);
+      return;
+    }
+
+  const success = await addToCart(bookId);
+
+  if (!success) {
+    return;
+  }
 
     setBookList((prev) =>
       prev.map((book) =>
@@ -180,6 +198,14 @@ function Products() {
   };
 
   const toggleFavorite = (book) => {
+    if (!isAuthenticated) {
+      setShowLoginPopup(true);
+      return;
+    }
+    if (user?.role === "admin") {
+      setShowAdminPopup(true);
+      return;
+    }
     setFavorites((prev) => {
       const exists = prev.some((item) => item._id === book._id);
 
@@ -520,7 +546,6 @@ function Products() {
                     </button>
                     <Link to={`/bookDetails/${book._id}`}>
                       <div className="flex h-64 w-full items-center justify-center overflow-hidden rounded-lg bg-gray-50">
-
                         <img
                           src={getBookImage(book.coverImage)}
                           alt={book.title}
@@ -598,6 +623,12 @@ function Products() {
           </div>
         </div>
       </section>
+      {showLoginPopup && (
+        <LoginRequiredPopup onClose={() => setShowLoginPopup(false)} />
+      )}
+      {showAdminPopup && (
+        <AdminActionPopup onClose={() => setShowAdminPopup(false)} />
+      )}
     </div>
   );
 }

@@ -20,7 +20,8 @@ import ContactMessages from "./components/admin/ContactMessages";
 import Products from "./pages/Products";
 import Favorites from "./pages/Favorites";
 import Users from "./components/admin/Users";
-
+import CustomerRoute from "./components/CustomerRoute";
+import CartMessage from "./components/CartMessage";
 
 function App() {
   //this mean to hide the header on page admin
@@ -30,19 +31,33 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
+        <CartMessage />
         {!hideHeader && <Header />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/cart" element = {  <CartPage/>}/>
-          <Route path="/on-sale" element = {  <OnSaleProducts/>}/>
-          <Route path="/bookDetails/:id" element = {  <BookDetails/>}/>
+          <Route
+            path="/cart"
+            element={
+              <CustomerRoute page="cart">
+                <CartPage />
+              </CustomerRoute>
+            }
+          />
+          <Route path="/on-sale" element={<OnSaleProducts />} />
+          <Route path="/bookDetails/:id" element={<BookDetails />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/favorites" element={<Favorites />} />
-          
+          <Route
+            path="/favorites"
+            element={
+              <CustomerRoute page="favorites">
+                <Favorites />
+              </CustomerRoute>
+            }
+          />
 
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="add-book" element={<AddBook />} />
@@ -50,10 +65,9 @@ function App() {
             <Route path="/admin/update-book/:id" element={<UpdateBook />} />
             <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/contact" element={<ContactMessages />} />
-
           </Route>
         </Routes>
-          {!hideHeader && <Footer />}
+        {!hideHeader && <Footer />}
       </CartProvider>
     </AuthProvider>
   );

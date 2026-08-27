@@ -3,12 +3,18 @@ import { Link } from "react-router-dom";
 import { BookOpen, Heart } from "lucide-react";
 import { useCart } from "../auth/CartContext";
 import { getBookImage } from "../utils/imageHelper";
+import { useAuth } from "../auth/AuthContext";
+import LoginRequiredPopup from "../components/LoginRequiredPopup";
+import AdminActionPopup from "../components/AdminActionPopup";
 
 function Favorites() {
   const [favorites, setFavorites] = useState([]);
   const [message, setMessage] = useState("");
 
   const { addToCart } = useCart();
+  const { user, isAuthenticated } = useAuth();
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showAdminPopup, setShowAdminPopup] = useState(false);
 
   // Load favorites
   useEffect(() => {
@@ -28,15 +34,27 @@ function Favorites() {
   };
 
   // Add to cart
-  const handleAddToCart = (bookId) => {
-    addToCart(bookId);
+const handleAddToCart = async (bookId) => {
+  if (!isAuthenticated) {
+    setShowLoginPopup(true);
+    return;
+  }
 
+  if (user?.role === "admin") {
+    setShowAdminPopup(true);
+    return;
+  }
+
+  const success = await addToCart(bookId);
+
+  if (success) {
     setMessage("Added To Cart Successfully");
 
     setTimeout(() => {
       setMessage("");
     }, 2500);
-  };
+  }
+};
 
   return (
     <div className="min-h-screen bg-white pt-32 md:pt-48">
@@ -159,6 +177,15 @@ function Favorites() {
           </div>
         )}
       </section>
+      {showLoginPopup && (
+        <LoginRequiredPopup onClose={() => setShowLoginPopup(false)} />
+      )}
+      {showAdminPopup && (
+  <AdminActionPopup
+    action="adding books to your cart"
+    onClose={() => setShowAdminPopup(false)}
+  />
+)}
     </div>
   );
 }

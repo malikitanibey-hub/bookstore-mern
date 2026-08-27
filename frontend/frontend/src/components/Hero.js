@@ -40,7 +40,7 @@ function Hero() {
         {/* Slide 1 */}
         <div className="relative w-full h-[60vh] min-h-[420px] max-h-[750px]">
           <img
-            src="/1.jpg"
+            src="/hero-1.jpg"
             alt="Discover your next favorite book"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -82,7 +82,7 @@ function Hero() {
         {/* Slide 2 */}
         <div className="relative w-full h-[60vh] min-h-[420px] max-h-[750px]">
           <img
-            src="/2.jpg"
+            src="/hero-2.jpg"
             alt="Explore our book collection"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -122,7 +122,7 @@ function Hero() {
         {/* Slide 3 */}
         <div className="relative w-full h-[60vh] min-h-[420px] max-h-[750px]">
           <img
-            src="/11.jpg"
+            src="/hero-3.jpg"
             alt="Featured books"
             className="absolute inset-0 w-full h-full object-cover"
           />
