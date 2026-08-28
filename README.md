@@ -159,7 +159,7 @@ http://localhost:3000
 
 ## 🌐 Live Demo
 
-[https://bookstore-mern-oesn.vercel.app/]
+https://bookstore-mern-oesn.vercel.app/
 
 ## 👨‍💻 Author
 
