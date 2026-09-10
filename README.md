@@ -52,9 +52,8 @@ The application was built using the **MERN stack** and includes user authenticat
 * bcrypt
 * Multer
 
-**Storage & Deployment**
+**Deployment**
 
-* Supabase
 * Vercel
 * Git & GitHub
 
@@ -70,7 +69,11 @@ Passwords are securely hashed using **bcrypt** before being stored in the databa
 
 **Multer** is used on the backend to handle book cover image uploads.
 
-Uploaded images can then be stored using **Supabase Storage**, while the related book information is stored in MongoDB.
+Book-cover files included in `frontend/frontend/public/images` are served directly
+by the React app. This needs no storage account or external image service.
+
+For a new permanent deployed image, add the file to that folder and redeploy.
+Serverless hosts such as Vercel do not retain files uploaded at runtime.
 
 ## 🗄️ Database
 
@@ -132,7 +135,6 @@ Create a `.env` file in the backend/root project directory and add the required 
 
 * MongoDB
 * JWT
-* Supabase
 * Server configuration
 
 ### 5. Run the backend

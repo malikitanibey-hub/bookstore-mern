@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Book = require("../models/BookSchema");
 const multer = require("multer");
-const supabase = require("../config/supabase");
+const path = require("path");
 const {auth, cookieAuth} = require("../auth/middleware")
 
  //this code from multer
@@ -18,9 +18,15 @@ const {auth, cookieAuth} = require("../auth/middleware")
 // })
 // const upload = multer({ storage: storage })
 
-const upload = multer({
-  storage: multer.memoryStorage(),
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "../images"));
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-coverImage${path.extname(file.originalname)}`);
+  },
 });
+const upload = multer({ storage });
 
 router.post("/createBook", cookieAuth, upload.single("coverImage"), async (req, res) => {
   try {
@@ -42,33 +48,7 @@ router.post("/createBook", cookieAuth, upload.single("coverImage"), async (req, 
       });
     }
 
-    let coverImageUrl = null;
-
-    if (req.file) {
-      const extension = req.file.originalname.split(".").pop();
-      const fileName = `${Date.now()}-coverImage.${extension}`;
-
-      const { data: uploadData, error: uploadError } =
-        await supabase.storage
-          .from("book-images")
-          .upload(fileName, req.file.buffer, {
-            contentType: req.file.mimetype,
-            upsert: false,
-          });
-
-      if (uploadError) {
-        return res.status(500).json({
-          message: "Image upload failed",
-          error: uploadError.message,
-        });
-      }
-
-      const { data: publicUrlData } = supabase.storage
-        .from("book-images")
-        .getPublicUrl(fileName);
-
-      coverImageUrl = publicUrlData.publicUrl;
-    }
+    const coverImage = req.file ? req.file.filename : null;
 
     const newBook = new Book({
       title,
@@ -80,7 +60,7 @@ router.post("/createBook", cookieAuth, upload.single("coverImage"), async (req, 
       category,
       isOnSale,
       discountPercent,
-      coverImage: coverImageUrl,
+      coverImage,
     });
 
     await newBook.save();
