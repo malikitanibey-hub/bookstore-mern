@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCart } from "../auth/CartContext";
 import { Link } from "react-router-dom";
-import { getBookImage } from "../utils/imageHelper";
+import { getBookImage, onImageError } from "../utils/imageHelper";
 import { useAuth } from "../auth/AuthContext";
 import LoginRequiredPopup from "./LoginRequiredPopup";
 import AdminActionPopup from "./AdminActionPopup";
@@ -55,6 +55,7 @@ function OnSaleProducts() {
                 <img
                   src={getBookImage(book.coverImage)}
                   alt={book.title}
+                  onError={onImageError}
                   className="w-full h-full object-contain"
                 />
               </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useCart } from "../auth/CartContext";
-import { getBookImage } from "../utils/imageHelper";
+import { getBookImage, onImageError } from "../utils/imageHelper";
 import { useAuth } from "../auth/AuthContext";
 import LoginRequiredPopup from "../components/LoginRequiredPopup";
 import AdminActionPopup from "../components/AdminActionPopup";
@@ -77,6 +77,7 @@ function BookDetails() {
             className="w-80 h-[450px] object-cover rounded-lg"
             src={getBookImage(book.coverImage)}
             alt={book.title}
+            onError={onImageError}
           />
         </div>
 

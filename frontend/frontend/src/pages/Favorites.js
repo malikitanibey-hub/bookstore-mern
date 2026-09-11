@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BookOpen, Heart } from "lucide-react";
 import { useCart } from "../auth/CartContext";
-import { getBookImage } from "../utils/imageHelper";
+import { getBookImage, onImageError } from "../utils/imageHelper";
 import { useAuth } from "../auth/AuthContext";
 import LoginRequiredPopup from "../components/LoginRequiredPopup";
 import AdminActionPopup from "../components/AdminActionPopup";
@@ -139,6 +139,7 @@ const handleAddToCart = async (bookId) => {
                     <img
                       src={getBookImage(book.coverImage)}
                       alt={book.title}
+                      onError={onImageError}
                       className="h-full w-full object-contain"
                     />
                   </div>

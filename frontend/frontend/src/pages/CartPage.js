@@ -1,6 +1,6 @@
 import React from "react";
 import { useCart } from "../auth/CartContext";
-import { getBookImage } from "../utils/imageHelper";
+import { getBookImage, onImageError } from "../utils/imageHelper";
 
 function CartPage() {
   const { cart, updateCart, removeFromCart, message } = useCart();
@@ -40,6 +40,7 @@ function CartPage() {
                 <img
                   src={getBookImage(item?.book?.coverImage)}
                   alt={item?.book?.title}
+                  onError={onImageError}
                   className="rounded w-24 h-32 sm:w-24 sm:h-32 object-cover mx-auto sm:mx-0"
                 />
 

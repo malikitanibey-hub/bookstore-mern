@@ -13,7 +13,7 @@ import {
 import { useCart } from "../auth/CartContext";
 import { useAuth } from "../auth/AuthContext";
 import LoginRequiredPopup from "../components/LoginRequiredPopup";
-import { getBookImage } from "../utils/imageHelper";
+import { getBookImage, onImageError } from "../utils/imageHelper";
 import AdminActionPopup from "../components/AdminActionPopup";
 
 function Products() {
@@ -549,6 +549,7 @@ function Products() {
                         <img
                           src={getBookImage(book.coverImage)}
                           alt={book.title}
+                          onError={onImageError}
                           className="h-full w-full object-contain"
                         />
                       </div>

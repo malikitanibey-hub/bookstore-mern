@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../auth/AuthContext";
-import { getBookImage } from "../../utils/imageHelper";
+import { getBookImage, onImageError } from "../../utils/imageHelper";
 
 function UpdateBook() {
   const { id } = useParams();
@@ -487,6 +487,7 @@ function UpdateBook() {
                   <img
                     src={getBookImage(currentImage)}
                     alt="Current book cover"
+                    onError={onImageError}
                     className="w-32 h-44 sm:w-40 sm:h-52 object-contain rounded-lg border border-slate-200 bg-slate-50"
                   />
                 </div>
